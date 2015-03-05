@@ -16,14 +16,26 @@ use Moose;
 # ATTRIBUTES
 
 has 'number' => (
-	isa => "Int",
-	is => "rw",
+	isa      => "Int",
+	is       => "rw",
 	required => 1
 );
 
 has 'test' => (
 	isa => "Bool",
-	is => "rw"
+	is  => "rw"
+);
+
+has 'first' => (
+	isa      => "ArrayRef",
+	is       => "rw",
+	default  => sub { [ 255, 0, 0 ] }
+);
+
+has 'last' => (
+	isa      => "ArrayRef",
+	is       => "rw",
+	default  => sub { [ 0, 255, 0 ] }
 );
 
 
@@ -31,10 +43,10 @@ has 'test' => (
 # METHODS
 
 sub get_gradient {
-	my $self = shift;
+	my $self  = shift;
 	my $steps = $self->number;
-	my $first = [ 0xFF, 0x00, 0x00 ];
-	my $last = [ 0x00, 0xFF, 0x00 ];
+	my $first = $self->first;
+	my $last  = $self->last;
 
 	if ($self->test) {
 		open my $html_fh, '>', "test_$steps.html",
